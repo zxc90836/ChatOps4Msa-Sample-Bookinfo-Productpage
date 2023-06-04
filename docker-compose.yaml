@@ -2,25 +2,21 @@ version: '3'
 services:
   productpage:
     build:
-      dockerfile: src/productpage/Dockerfile
-      context: .
+      context: src/productpage
     ports:
       - '9080:9080'
   details:
     build:
-      dockerfile: src/details/Dockerfile
-      context: .
+      context: src/details
     ports:
       - '9081:9081'
   ratings:
     build:
-      dockerfile: src/ratings/Dockerfile
-      context: .
+      context: src/ratings
     ports:
       - '9082:9082'
   reviews:
     build:
-      dockerfile: src/reviews/Dockerfile
-      context: .
+      context: src/reviews
     ports:
       - '9083:9083'
