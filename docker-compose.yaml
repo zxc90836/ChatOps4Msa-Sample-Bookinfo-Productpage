@@ -1,0 +1,26 @@
+version: '3'
+services:
+  productpage:
+    build:
+      context: src/productpage
+      dockerfile: src/productpage/Dockerfile
+    ports:
+      - '9080:9080'
+  details:
+    build:
+      context: src/details
+      dockerfile: src/details/Dockerfile
+    ports:
+      - '9081:9081'
+  ratings:
+    build:
+      context: src/ratings
+      dockerfile: src/ratings/Dockerfile
+    ports:
+      - '9082:9082'
+  reviews:
+    build:
+      context: src/reviews
+      dockerfile: src/reviews/Dockerfile
+    ports:
+      - '9083:9083'
