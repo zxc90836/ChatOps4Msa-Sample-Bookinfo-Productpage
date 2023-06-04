@@ -20,3 +20,13 @@ services:
       context: src/reviews
     ports:
       - '9083:9083'
+  mongodb:
+    build:
+      context: src/mongodb
+    ports:
+      - '27017:27017'
+  mysql:
+    build:
+      context: src/mysql
+    ports:
+      - '3306:3306'
