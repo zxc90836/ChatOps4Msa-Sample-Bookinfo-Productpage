@@ -1,32 +1,60 @@
 version: '3'
+
 services:
+
   productpage:
     build:
       context: src/productpage
     ports:
       - '9080:9080'
+    links:
+      - mongodb
+      - mysql
+    environment:
+      - MONGO_DB_URL=mongodb://mongodb:27017
+      - MYSQL_DB_URL=jdbc:mysql://mysql:3306/bookinfo
+      - MYSQL_DB_USER=mysql
+      - MYSQL_DB_PASSWORD=root
+
   details:
     build:
       context: src/details
     ports:
       - '9081:9081'
+    links:
+      - mongodb
+    environment:
+      - MONGO_DB_URL=mongodb://mongodb:27017
+
   ratings:
     build:
       context: src/ratings
     ports:
       - '9082:9082'
+    links:
+      - mongodb
+    environment:
+      - MONGO_DB_URL=mongodb://mongodb:27017
+
   reviews:
     build:
       context: src/reviews
     ports:
       - '9083:9083'
+
   mongodb:
     build:
       context: src/mongodb
     ports:
       - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=root
+
   mysql:
     build:
       context: src/mysql
     ports:
       - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
