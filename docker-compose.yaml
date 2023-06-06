@@ -8,9 +8,6 @@ services:
         - flood_factor=100
     ports:
       - '9080:9080'
-    platforms:
-      - linux/amd64
-      - linux/arm64
     links:
       - mongodb
       - mysql
@@ -28,9 +25,6 @@ services:
         - enable_external_book_service=true
     ports:
       - '9081:9081'
-    platforms:
-      - linux/amd64
-      - linux/arm64
     links:
       - mongodb
     environment:
@@ -43,9 +37,6 @@ services:
         - service_version=v2
     ports:
       - '9082:9082'
-    platforms:
-      - linux/amd64
-      - linux/arm64
     links:
       - mongodb
     environment:
@@ -60,18 +51,12 @@ services:
         - star_color=red
     ports:
       - '9083:9083'
-    platforms:
-      - linux/amd64
-      - linux/arm64
 
   mongodb:
     build:
       context: src/mongodb
     ports:
       - '27017:27017'
-    platforms:
-      - linux/amd64
-      - linux/arm64
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongodb
       - MONGO_INITDB_ROOT_PASSWORD=root
@@ -81,8 +66,5 @@ services:
       context: src/mysql
     ports:
       - '3306:3306'
-    platforms:
-      - linux/amd64
-      - linux/arm64
     environment:
       - MYSQL_ROOT_PASSWORD=root
