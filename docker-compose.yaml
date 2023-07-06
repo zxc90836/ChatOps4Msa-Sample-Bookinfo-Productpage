@@ -24,7 +24,7 @@ services:
         - service_version=v2
         - enable_external_book_service=true
     ports:
-      - '9081:9081'
+      - '9081:9080'
     links:
       - mongodb
     environment:
@@ -36,7 +36,7 @@ services:
       args:
         - service_version=v2
     ports:
-      - '9082:9082'
+      - '9082:9080'
     links:
       - mongodb
     environment:
@@ -50,7 +50,7 @@ services:
         - enable_ratings=true
         - star_color=red
     ports:
-      - '9083:9083'
+      - '9083:9080'
 
   mongodb:
     build:
