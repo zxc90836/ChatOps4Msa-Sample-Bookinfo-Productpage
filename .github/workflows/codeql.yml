@@ -100,8 +100,9 @@ jobs:
         result="$ANALYSIS_RESULT"
         
         # Publish the result to RabbitMQ
-        curl -X POST \
+        curl -i \
+          -X POST \
           -H "Content-Type: application/json" \
           -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
-          -d '{"message": "$result"}' \
-          https://chatops4msa-prom.soselab.tw:80/api/exchanges/%2F/event-queue/publish
+          -d '{"properties":{},"routing_key":"event-queue","payload":"messageFromGitHub","payload_encoding":"string"}' \
+          https://chatops4msa-rabb.soselab.tw:443/api/exchanges/%2F/amq.default/publish
