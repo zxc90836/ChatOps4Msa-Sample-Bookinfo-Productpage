@@ -17,8 +17,6 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-  schedule:
-    - cron: '26 9 * * 2'
 
 jobs:
   analyze:
@@ -78,11 +76,32 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+      id: codeql
       with:
         category: "/language:${{matrix.language}}"
 
-    - name: Send Message
-      uses: sarisia/actions-status-discord@v1
-      if: always()
-      with:
-        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+    # - name: Send Message to Discord
+    #   uses: sarisia/actions-status-discord@v1
+    #   if: always()
+    #   with:
+    #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
+
+    - name: Get CodeQL Analysis Result
+      run: |
+        # Get the CodeQL analysis result
+        analysis_result="${{ steps.codeql.outputs.result }}"
+
+        # Set the result as an environment variable for the next step
+        echo "ANALYSIS_RESULT=$analysis_result" >> $GITHUB_ENV
+    
+    - name: Send Message to RabbitMQ
+      run: |
+        # Get the analysis result from the environment variable
+        result="$ANALYSIS_RESULT"
+        
+        # Publish the result to RabbitMQ
+        curl -X POST \
+          -H "Content-Type: application/json" \
+          -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
+          -d '{"message": "$result"}' \
+          http://rabbitmq-hostname:8080/api/exchanges/%2F/event-queue/publish
