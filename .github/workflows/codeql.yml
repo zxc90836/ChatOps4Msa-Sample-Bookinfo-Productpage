@@ -104,4 +104,4 @@ jobs:
           -H "Content-Type: application/json" \
           -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
           -d '{"message": "$result"}' \
-          https://chatops4msa-prom.soselab.tw:8080/api/exchanges/%2F/event-queue/publish
+          https://chatops4msa-prom.soselab.tw:80/api/exchanges/%2F/event-queue/publish
