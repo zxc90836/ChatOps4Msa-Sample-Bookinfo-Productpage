@@ -93,5 +93,5 @@ jobs:
           -X POST \
           -H "Content-Type: application/json" \
           -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
-          -d '{"properties":{},"routing_key":"event-queue","payload":"{\"status\":\"${{ job.status }}\", \"repository\":\"${{ github.repository }}\", \"workflow\":\"${{ github.workflow }}\", \"ref_name\":\"${{ github.ref_name }}\"}","payload_encoding":"string"}' \
+          -d '{"properties":{},"routing_key":"event-queue","payload":"{\"status\":\"${{ job.status }}\", \"repository\":\"${{ github.repository }}\", \"workflow\":\"${{ github.workflow }}\", \"result\":\"[link](https://github.com/${{ github.repository }}/security/code-scanning)\"}","payload_encoding":"string"}' \
           https://chatops4msa-rabb.soselab.tw:443/api/exchanges/%2F/amq.default/publish
