@@ -85,24 +85,13 @@ jobs:
     #   if: always()
     #   with:
     #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
-
-    - name: Get CodeQL Analysis Result
-      run: |
-        # Get the CodeQL analysis result
-        analysis_result="${{ steps.codeql.outputs.result }}"
-
-        # Set the result as an environment variable for the next step
-        echo "ANALYSIS_RESULT=$analysis_result" >> $GITHUB_ENV
     
     - name: Send Message to RabbitMQ
-      run: |        
-        # payload
-        payload='{"repository":"${{ github.repository }}", "workflow":"${{ github.workflow }}", "ref_name":"${{ github.ref_name }}"}'
-        
+      run: |
         # Publish the result to RabbitMQ
         curl -i \
           -X POST \
           -H "Content-Type: application/json" \
           -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
-          -d '{"properties":{},"routing_key":"event-queue","payload":"$payload","payload_encoding":"string"}' \
+          -d '{"properties":{},"routing_key":"event-queue","payload":"{\"repository\":\"${{ github.repository }}\", \"workflow\":\"${{ github.workflow }}\", \"ref_name\":\"${{ github.ref_name }}\"}","payload_encoding":"string"}' \
           https://chatops4msa-rabb.soselab.tw:443/api/exchanges/%2F/amq.default/publish
