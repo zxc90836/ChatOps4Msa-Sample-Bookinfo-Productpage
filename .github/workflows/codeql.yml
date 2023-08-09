@@ -101,5 +101,5 @@ jobs:
           -X POST \
           -H "Content-Type: application/json" \
           -u ${{ secrets.RABBITMQ_USERNAME }}:${{ secrets.RABBITMQ_PASSWORD }} \
-          -d '{"properties":{},"routing_key":"event-queue","payload":"$ANALYSIS_RESULT","payload_encoding":"string"}' \
+          -d '{"properties":{},"routing_key":"event-queue","payload":"${{ steps.codeql.outputs.result }}","payload_encoding":"string"}' \
           https://chatops4msa-rabb.soselab.tw:443/api/exchanges/%2F/amq.default/publish
